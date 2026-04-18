@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dental Inventory — Wireframes | Sribalaji Suresh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  /* ── Reset & tokens ───────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0D1B2A;
+    --teal:    #1B998B;
+    --teal-lt: #E8F5F3;
+    --slate:   #3D5A80;
+    --slate-lt:#EEF3F8;
+    --warm:    #F7F7F7;
+    --mid:     #9BA3AF;
+    --dark:    #374151;
+    --white:   #FFFFFF;
+    --amber:   #F59E0B;
+    --red:     #DC2626;
+    --red-lt:  #FEF2F2;
+    --green:   #059669;
+    --green-lt:#ECFDF5;
+    --border:  #D1D5DB;
+    --shadow:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+    --radius:  6px;
+  }
+
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F0F2F5; color: var(--dark); }
+
+  /* ── Cover ────────────────────────────────────────────────────────── */
+  .cover {
+    background: linear-gradient(160deg, var(--navy) 55%, var(--teal) 100%);
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 80px;
+    color: white;
+  }
+  .cover-eyebrow { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+  .cover h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  .cover h1 span { color: var(--teal); }
+  .cover-sub { font-size: 18px; color: rgba(255,255,255,.65); margin-bottom: 40px; }
+  .cover-meta { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; font-size: 13px; }
+  .cover-meta .key { color: var(--mid); text-transform: uppercase; font-size: 10px; letter-spacing: .08em; }
+  .cover-meta .val { color: white; }
+  .cover-pills { display: flex; gap: 10px; margin-top: 48px; flex-wrap: wrap; }
+  .pill { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+          padding: 6px 14px; border-radius: 100px; font-size: 12px; color: white; }
+  .pill.active { background: var(--teal); border-color: var(--teal); }
+
+  /* ── Nav ──────────────────────────────────────────────────────────── */
+  .top-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); color: white;
+    display: flex; align-items: center; gap: 0;
+    padding: 0 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    overflow-x: auto;
+  }
+  .top-nav .brand { font-size: 13px; font-weight: 700; color: var(--teal);
+                    white-space: nowrap; padding: 14px 20px 14px 0;
+                    border-right: 1px solid rgba(255,255,255,.1); margin-right: 8px; }
+  .top-nav a {
+    display: block; padding: 14px 12px; font-size: 11px; color: rgba(255,255,255,.6);
+    text-decoration: none; white-space: nowrap; transition: color .2s;
+  }
+  .top-nav a:hover { color: white; }
+  .top-nav a.active { color: var(--teal); border-bottom: 2px solid var(--teal); }
+
+  /* ── Section header ───────────────────────────────────────────────── */
+  .section-hdr {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .section-hdr .screen-id { font-size: 11px; color: var(--teal); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .section-hdr h2 { font-size: 20px; font-weight: 700; color: var(--navy); }
+  .section-hdr .badge { font-size: 10px; padding: 3px 9px; border-radius: 100px; font-weight: 600; }
+  .badge-wizard { background: #FEF3C7; color: #92400E; }
+  .badge-primary { background: var(--teal-lt); color: var(--teal); }
+  .badge-mgmt { background: var(--slate-lt); color: var(--slate); }
+  .badge-audit { background: #F3E8FF; color: #7C3AED; }
+  .badge-edge { background: var(--red-lt); color: var(--red); }
+
+  /* ── Screen wrapper ───────────────────────────────────────────────── */
+  .screen-wrap { display: flex; gap: 0; min-height: calc(100vh - 50px); }
+
+  /* ── Annotation panel ─────────────────────────────────────────────── */
+  .annotations {
+    width: 280px; min-width: 280px; background: var(--navy); color: white;
+    padding: 24px 20px; overflow-y: auto;
+    position: sticky; top: 50px; align-self: flex-start; max-height: calc(100vh - 50px);
+  }
+  .ann-title { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--mid); margin-bottom: 16px; }
+  .ann-item { margin-bottom: 16px; }
+  .ann-num { display: inline-flex; align-items: center; justify-content: center;
+             width: 20px; height: 20px; border-radius: 50%;
+             background: var(--teal); color: white; font-size: 10px; font-weight: 700;
+             margin-right: 8px; flex-shrink: 0; }
+  .ann-label { font-size: 11px; font-weight: 600; color: var(--teal); margin-bottom: 4px; display: flex; align-items: center; }
+  .ann-desc { font-size: 11px; color: rgba(255,255,255,.65); line-height: 1.5; padding-left: 28px; }
+  .ann-kbd { background: rgba(255,255,255,.12); border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 10px; }
+  .ann-sep { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 16px 0; }
+
+  /* ── Screen canvas ────────────────────────────────────────────────── */
+  .screen-canvas {
+    flex: 1; padding: 32px; overflow-y: auto; background: #F0F2F5;
+  }
+
+  /* ── App chrome (PM sidebar + module area) ────────────────────────── */
+  .app-shell { display: flex; height: 100%; min-height: 600px; background: white;
+               border: 1px solid var(--border); border-radius: var(--radius);
+               box-shadow: var(--shadow); overflow: hidden; }
+
+  .pm-sidebar {
+    width: 200px; min-width: 200px; background: var(--navy); padding: 0;
+    display: flex; flex-direction: column;
+  }
+  .pm-sidebar .logo { padding: 16px; font-size: 13px; font-weight: 700; color: var(--teal);
+                      border-bottom: 1px solid rgba(255,255,255,.08); }
+  .pm-sidebar .logo span { color: rgba(255,255,255,.4); font-weight: 400; font-size: 10px; display: block; margin-top: 2px; }
+  .pm-nav-item {
+    padding: 10px 16px; font-size: 12px; color: rgba(255,255,255,.55);
+    display: flex; align-items: center; gap: 10px; cursor: default;
+    transition: all .15s;
+  }
+  .pm-nav-item:hover { color: white; background: rgba(255,255,255,.05); }
+  .pm-nav-item.active { color: white; background: rgba(27,153,139,.2); border-left: 3px solid var(--teal); }
+  .pm-nav-item .icon { font-size: 14px; width: 18px; text-align: center; }
+  .pm-nav-section { padding: 12px 16px 4px; font-size: 9px; text-transform: uppercase;
+                    letter-spacing: .1em; color: rgba(255,255,255,.25); }
+
+  .module-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .module-topbar {
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; background: white;
+  }
+  .module-topbar h3 { font-size: 16px; font-weight: 700; color: var(--navy); flex: 1; }
+  .module-topbar .user-chip { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--mid); }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--slate);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; color: white; }
+
+  .module-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+  /* ── Wizard styles ────────────────────────────────────────────────── */
+  .wizard-progress {
+    display: flex; align-items: center; gap: 0; margin-bottom: 28px;
+    padding: 0 20px;
+  }
+  .wiz-step {
+    display: flex; align-items: center; gap: 0; flex: 1;
+  }
+  .wiz-step:last-child { flex: 0; }
+  .wiz-dot {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .wiz-dot.done { background: var(--teal); color: white; }
+  .wiz-dot.active { background: var(--navy); color: white; border: 2px solid var(--teal); }
+  .wiz-dot.future { background: var(--border); color: var(--mid); }
+  .wiz-label { font-size: 10px; position: absolute; margin-top: 36px; white-space: nowrap; transform: translateX(-40%); color: var(--mid); }
+  .wiz-step-wrap { position: relative; display: flex; align-items: center; }
+  .wiz-line { flex: 1; height: 2px; background: var(--border); }
+  .wiz-line.done { background: var(--teal); }
+
+  .wizard-card {
+    background: var(--warm); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; margin-bottom: 20px;
+  }
+  .wizard-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .wizard-card p { font-size: 12px; color: var(--mid); margin-bottom: 16px; }
+
+  /* ── Location card (read-only) ────────────────────────────────────── */
+  .location-card {
+    background: white; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 16px; display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .location-card .loc-icon { font-size: 20px; }
+  .location-card .loc-name { font-size: 14px; font-weight: 600; color: var(--navy); }
+  .location-card .loc-meta { font-size: 11px; color: var(--mid); }
+  .location-card .ro-badge { margin-left: auto; font-size: 10px; padding: 3px 8px;
+                              background: #FEF3C7; color: #92400E; border-radius: 100px; font-weight: 600; }
+
+  /* ── Tables ───────────────────────────────────────────────────────── */
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .wf-table th { background: var(--navy); color: white; padding: 8px 12px; text-align: left; font-size: 11px; }
+  .wf-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .wf-table tr:nth-child(even) td { background: var(--warm); }
+  .wf-table tr:hover td { background: var(--teal-lt); }
+
+  /* ── Inputs ───────────────────────────────────────────────────────── */
+  .wf-input {
+    border: 1px solid var(--border); border-radius: 4px; padding: 6px 10px;
+    font-size: 12px; color: var(--dark); background: white; width: 100%;
+    outline: none;
+  }
+  .wf-input:focus { border-color: var(--teal); box-shadow: 0 0 0 2px rgba(27,153,139,.15); }
+  .wf-input.error { border-color: var(--red); background: var(--red-lt); }
+  .wf-input.filled { background: #FAFFF9; border-color: var(--green); }
+  .field-error { font-size: 10px; color: var(--red); margin-top: 3px; display: flex; align-items: center; gap: 4px; }
+
+  /* ── Buttons ──────────────────────────────────────────────────────── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+         border-radius: var(--radius); font-size: 12px; font-weight: 600; cursor: default;
+         border: 1px solid transparent; }
+  .btn-primary { background: var(--teal); color: white; }
+  .btn-secondary { background: white; color: var(--dark); border-color: var(--border); }
+  .btn-ghost { background: transparent; color: var(--teal); }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+  .btn-disabled { background: var(--border); color: var(--mid); cursor: not-allowed; }
+  .btn-icon { width: 30px; height: 30px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; }
+
+  /* ── Location selector bar ────────────────────────────────────────── */
+  .loc-selector-bar {
+    display: flex; align-items: center; gap: 12px; padding: 12px 0; margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .loc-selector-bar label { font-size: 11px; font-weight: 600; color: var(--mid); white-space: nowrap; }
+  .loc-pills { display: flex; gap: 6px; }
+  .loc-pill {
+    padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
+    border: 1px solid var(--border); background: white; color: var(--dark); cursor: default;
+  }
+  .loc-pill.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+  .subloc-tabs {
+    display: flex; gap: 2px; margin-bottom: 16px; border-bottom: 1px solid var(--border);
+  }
+  .subloc-tab {
+    padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: default;
+    border-bottom: 2px solid transparent; color: var(--mid);
+  }
+  .subloc-tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 700; }
+  .subloc-tab.all { color: var(--dark); border-bottom-color: var(--navy); }
+
+  /* ── Toolbar ──────────────────────────────────────────────────────── */
+  .toolbar {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .search-field {
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 6px 10px; background: white; flex: 1; max-width: 280px;
+  }
+  .search-field input { border: none; outline: none; font-size: 12px; color: var(--dark); flex: 1; background: transparent; }
+  .search-icon { color: var(--mid); font-size: 13px; }
+
+  .filter-chip {
+    padding: 5px 12px; border: 1px solid var(--border); border-radius: 100px;
+    font-size: 11px; color: var(--dark); background: white; display: flex; align-items: center; gap: 6px;
+  }
+  .filter-chip.active { background: var(--teal-lt); border-color: var(--teal); color: var(--teal); }
+
+  /* ── Qty cells ────────────────────────────────────────────────────── */
+  .qty-cell { display: flex; align-items: center; gap: 8px; }
+  .qty-current { font-size: 13px; font-weight: 600; color: var(--dark); min-width: 32px; text-align: right; }
+  .qty-arrow { color: var(--mid); font-size: 11px; }
+  .qty-input { width: 72px; }
+  .qty-input-error { width: 72px; border-color: var(--red) !important; background: var(--red-lt) !important; }
+  .row-dirty td { background: #FAFFF9 !important; }
+  .row-saved td { animation: flash .6s; }
+  @keyframes flash { 0%,100%{ background: inherit; } 50%{ background: var(--green-lt); } }
+
+  /* ── Status chips ─────────────────────────────────────────────────── */
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
+          border-radius: 100px; font-size: 10px; font-weight: 600; }
+  .chip-ppe { background: #DBEAFE; color: #1D4ED8; }
+  .chip-rest { background: #FCE7F3; color: #9D174D; }
+  .chip-instr { background: #FEF3C7; color: #92400E; }
+  .chip-disp { background: #D1FAE5; color: #065F46; }
+
+  /* ── Toast ────────────────────────────────────────────────────────── */
+  .toast {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 16px; border-radius: var(--radius); font-size: 12px;
+    margin-top: 12px;
+  }
+  .toast-success { background: var(--green-lt); border: 1px solid var(--green); color: var(--green); }
+  .toast-error { background: var(--red-lt); border: 1px solid var(--red); color: var(--red); }
+  .toast-warning { background: #FEF3C7; border: 1px solid var(--amber); color: #92400E; }
+
+  /* ── Empty state ──────────────────────────────────────────────────── */
+  .empty-state {
+    text-align: center; padding: 60px 40px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .empty-icon { font-size: 40px; opacity: .4; }
+  .empty-title { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .empty-desc { font-size: 12px; color: var(--mid); max-width: 300px; line-height: 1.5; }
+
+  /* ── Conflict modal ───────────────────────────────────────────────── */
+  .modal-overlay {
+    position: absolute; inset: 0; background: rgba(13,27,42,.5);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius); z-index: 20;
+  }
+  .modal {
+    background: white; border-radius: var(--radius); padding: 24px; max-width: 420px; width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  }
+  .modal-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .modal-body { font-size: 12px; color: var(--dark); line-height: 1.6; margin-bottom: 16px; }
+  .conflict-row { display: flex; gap: 8px; margin: 8px 0; }
+  .conflict-col { flex: 1; padding: 10px; border-radius: 4px; text-align: center; }
+  .conflict-col .label { font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--mid); margin-bottom: 4px; }
+  .conflict-col .value { font-size: 20px; font-weight: 700; }
+  .conflict-old { background: var(--warm); }
+  .conflict-theirs { background: var(--red-lt); }
+  .conflict-theirs .value { color: var(--red); }
+  .conflict-mine { background: var(--teal-lt); }
+  .conflict-mine .value { color: var(--teal); }
+
+  /* ── Upload zone ──────────────────────────────────────────────────── */
+  .upload-zone {
+    border: 2px dashed var(--border); border-radius: var(--radius);
+    padding: 32px; text-align: center; cursor: default; background: var(--warm);
+  }
+  .upload-zone.active { border-color: var(--teal); background: var(--teal-lt); }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; font-weight: 600; color: var(--dark); }
+  .upload-sub { font-size: 11px; color: var(--mid); margin-top: 4px; }
+
+  .preview-table { margin-top: 16px; }
+  .error-summary { background: var(--red-lt); border: 1px solid var(--red); border-radius: var(--radius);
+                   padding: 12px 16px; margin-top: 12px; font-size: 12px; color: var(--red); }
+
+  /* ── Audit log filters ────────────────────────────────────────────── */
+  .filter-bar {
+    display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border);
+    margin-bottom: 14px; flex-wrap: wrap; align-items: center;
+  }
+  .filter-select {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 6px 10px; font-size: 12px; color: var(--dark); background: white;
+  }
+  .date-range { display: flex; align-items: center; gap: 6px; }
+
+  /* ── Inline add row ───────────────────────────────────────────────── */
+  .add-row td { background: var(--teal-lt) !important; }
+
+  /* ── Success state ────────────────────────────────────────────────── */
+  .success-state {
+    text-align: center; padding: 48px;
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  .success-icon { font-size: 56px; }
+  .success-title { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .success-stats { display: flex; gap: 24px; }
+  .success-stat { background: var(--teal-lt); border-radius: var(--radius); padding: 16px 24px; text-align: center; }
+  .success-stat .num { font-size: 28px; font-weight: 800; color: var(--teal); }
+  .success-stat .lbl { font-size: 11px; color: var(--mid); }
+
+  /* ── Annotation callout number ─────────────────────────────────────── */
+  .callout-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--amber); color: white; font-size: 9px; font-weight: 800;
+    vertical-align: middle; margin-left: 4px; cursor: default;
+  }
+
+  /* ── Section divider ──────────────────────────────────────────────── */
+  .page-break {
+    margin: 60px 0; border: none;
+    border-top: 2px dashed rgba(0,0,0,.1);
+    position: relative;
+  }
+
+  /* ── Kbd ─────────────────────────────────────────────────────────── */
+  kbd { background: var(--warm); border: 1px solid var(--border); border-radius: 3px;
+        padding: 1px 5px; font-size: 10px; font-family: monospace; color: var(--dark); }
+
+  /* ── Print ────────────────────────────────────────────────────────── */
+  @media print {
+    .top-nav { display: none; }
+    .annotations { position: static; max-height: none; }
+    .screen-wrap { flex-direction: column; }
+    .app-shell { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER ═══════════════════════════════════════════════════ -->
+<div class="cover" id="top">
+  <div class="cover-eyebrow">UI/UX Technical Assessment — Hire Reactor</div>
+  <h1>Dental Inventory<br><span>Wireframes</span></h1>
+  <p class="cover-sub">Low-Fidelity Annotated Screen Set — MVP</p>
+  <div class="cover-meta">
+    <span class="key">Candidate</span><span class="val">Sribalaji Suresh</span>
+    <span class="key">Date</span><span class="val">18 April 2026</span>
+    <span class="key">Format</span><span class="val">HTML (annotated, interactive states)</span>
+    <span class="key">Companion</span><span class="val">DentalInventory_SribalajSuresh_20260418_Spec.pdf</span>
+  </div>
+  <div class="cover-pills">
+    <span class="pill active">WF-01–04 Setup Wizard</span>
+    <span class="pill active">WF-05–08 Items List</span>
+    <span class="pill active">WF-09 Sub-Locations</span>
+    <span class="pill active">WF-10 Audit Log</span>
+    <span class="pill active">WF-11 Add/Edit Item</span>
+    <span class="pill">11 screens · 5+ edge states</span>
+  </div>
+</div>
+
+<!-- ═══════════════ STICKY NAV ══════════════════════════════════════════════ -->
+<nav class="top-nav">
+  <div class="brand">DentalInventory Wireframes</div>
+  <a href="#wf01">WF-01 PM Locations</a>
+  <a href="#wf02">WF-02 Sub-Locs</a>
+  <a href="#wf03">WF-03 CSV Import</a>
+  <a href="#wf04">WF-04 Success</a>
+  <a href="#wf05">WF-05 Items List</a>
+  <a href="#wf06">WF-06 Validation</a>
+  <a href="#wf07">WF-07 Conflict</a>
+  <a href="#wf08">WF-08 Empty</a>
+  <a href="#wf09">WF-09 Sub-Loc Mgmt</a>
+  <a href="#wf10">WF-10 Audit Log</a>
+  <a href="#wf11">WF-11 Add Item</a>
+</nav>
+
+<!-- ═══════════════ WF-01: PM LOCATIONS (Step 1) ════════════════════════════ -->
+<div id="wf01">
+<div class="section-hdr">
+  <span class="screen-id">WF-01</span>
+  <h2>Setup Wizard — Step 1: PM Locations</h2>
+  <span class="badge badge-wizard">Wizard</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Auto-launch trigger</div>
+      <div class="ann-desc">Wizard fires on first module access. <span class="ann-kbd">localStorage</span> flag <code>inventory_setup_complete</code> gates this. Once set, wizard is only accessible via Settings.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Read-only cards</div>
+      <div class="ann-desc">Locations come from PM API call (GET /locations). No edit, add, or delete affordances. "Read-only" badge communicates intentional constraint, not a bug.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Progress stepper</div>
+      <div class="ann-desc">4-step linear flow. Steps 2–4 are disabled until step 1 completes. Tab key is trapped within the active step content area.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> Next button</div>
+      <div class="ann-desc">Enabled immediately (read-only review). Keyboard shortcut: <kbd>Alt</kbd>+<kbd>→</kbd> advances. Focus moves to first interactive element in Step 2.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <!-- PM Sidebar -->
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-section">Main</div>
+        <div class="pm-nav-item">📅 Schedule</div>
+        <div class="pm-nav-item">👥 Patients</div>
+        <div class="pm-nav-item">💰 Billing</div>
+        <div class="pm-nav-section">Modules</div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+        <div class="pm-nav-item"><span class="icon">📊</span> Reports</div>
+        <div class="pm-nav-item"><span class="icon">⚙️</span> Settings</div>
+      </nav>
+
+      <!-- Module -->
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Inventory Setup <span class="callout-num">1</span></h3>
+          <div class="user-chip"><div class="avatar">TY</div> Taylor Admin</div>
+        </div>
+        <div class="module-body">
+
+          <!-- Wizard progress -->
+          <div class="wizard-progress" style="margin-bottom:48px;">
+            <div class="wiz-step">
+              <div class="wiz-step-wrap">
+                <div class="wiz-dot active">1</div>
+                <span class="wiz-label">Locations</span>
+              </div>
+              <div class="wiz-line"></div>
+            </div>
+            <div class="wiz-step">
+              <div class="wiz-step-wrap">
+                <div class="wiz-dot future">2</div>
+                <span class="wiz-label">Sub-Locations</span>
+              </div>
+              <div class="wiz-line"></div>
+            </div>
+            <div class="wiz-step">
+              <div class="wiz-step-wrap">
+                <div class="wiz-dot future">3</div>
+                <span class="wiz-label">Import Data</span>
+              </div>
+              <div class="wiz-line"></div>
+            </div>
+            <div class="wiz-step">
+              <div class="wiz-step-wrap">
+                <div class="wiz-dot future">4</div>
+                <span class="wiz-label">Done</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wizard-card">
+            <h4>Step 1 of 4 — Review Practice Locations <span class="callout-num">2</span></h4>
+            <p>These locations are managed by PracticePro. They are shown here for reference only and cannot be edited in this module.</p>
+
+            <div class="location-card">
+              <span class="loc-icon">🏥</span>
+              <div>
+                <div class="loc-name">OFFICE_A</div>
+                <div class="loc-meta">Primary Location · 4 operatories</div>
+              </div>
+              <span class="ro-badge">Read-only</span>
+            </div>
+
+            <div class="location-card">
+              <span class="loc-icon">🏥</span>
+              <div>
+                <div class="loc-name">OFFICE_B</div>
+                <div class="loc-meta">Secondary Location · 2 operatories</div>
+              </div>
+              <span class="ro-badge">Read-only</span>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+              <span style="font-size:12px;color:var(--mid);">Don't see a location? Update it in PracticePro Settings.</span>
+              <button class="btn btn-primary">Next: Sub-Locations →</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-02: SUB-LOCATIONS CRUD (Step 2) ══════════════════════ -->
+<div id="wf02">
+<div class="section-hdr">
+  <span class="screen-id">WF-02</span>
+  <h2>Setup Wizard — Step 2: Sub-Locations CRUD</h2>
+  <span class="badge badge-wizard">Wizard</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> + Add inline</div>
+      <div class="ann-desc">Clicking + Add appends a blank editable row at the bottom of the table. Focus auto-moves to the Name input. <kbd>Enter</kbd> saves, <kbd>Esc</kbd> cancels.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Location scoping</div>
+      <div class="ann-desc">Sub-locations are created per Location. Tabs switch context. Adding a sub-loc in OFFICE_A tab does not affect OFFICE_B.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Duplicate validation</div>
+      <div class="ann-desc">On blur, if name already exists for this Location, inline error: "Name already in use for this location." Save button for that row disables.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> Delete guard</div>
+      <div class="ann-desc">Delete icon always visible in wizard (no balance exists yet). Post-setup, delete is guarded if balance > 0 (shows Archive instead).</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">5</span> Back navigation</div>
+      <div class="ann-desc">Back returns to Step 1. Entered sub-locations are preserved in state (not cleared). <kbd>Alt</kbd>+<kbd>←</kbd> goes back.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Inventory Setup</h3>
+          <div class="user-chip"><div class="avatar">TY</div> Taylor Admin</div>
+        </div>
+        <div class="module-body">
+
+          <div class="wizard-progress" style="margin-bottom:48px;">
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div><span class="wiz-label">Locations</span></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot active">2</div><span class="wiz-label">Sub-Locations</span></div><div class="wiz-line"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot future">3</div><span class="wiz-label">Import Data</span></div><div class="wiz-line"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot future">4</div><span class="wiz-label">Done</span></div></div>
+          </div>
+
+          <div class="wizard-card">
+            <h4>Step 2 of 4 — Create Sub-Locations <span class="callout-num">2</span></h4>
+            <p>Sub-locations are rooms or areas within each office (e.g., Operatory 1, Sterilization). You can add or remove them later from Settings.</p>
+
+            <!-- Location tabs -->
+            <div class="subloc-tabs" style="margin-bottom:14px;">
+              <div class="subloc-tab active">🏥 OFFICE_A</div>
+              <div class="subloc-tab">🏥 OFFICE_B</div>
+            </div>
+
+            <!-- Sub-location table -->
+            <table class="wf-table" style="margin-bottom:12px;">
+              <thead><tr><th>#</th><th>Sub-Location Name <span class="callout-num">1</span></th><th>Created</th><th style="width:60px;"></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td style="color:var(--mid);font-size:11px;">1</td>
+                  <td><span style="font-weight:600;">OPERATORY_1</span></td>
+                  <td style="color:var(--mid);font-size:11px;">just now</td>
+                  <td><button class="btn btn-icon" style="color:var(--red);">🗑</button></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--mid);font-size:11px;">2</td>
+                  <td><span style="font-weight:600;">OPERATORY_2</span></td>
+                  <td style="color:var(--mid);font-size:11px;">just now</td>
+                  <td><button class="btn btn-icon" style="color:var(--red);">🗑</button></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--mid);font-size:11px;">3</td>
+                  <td><span style="font-weight:600;">STERILIZATION</span></td>
+                  <td style="color:var(--mid);font-size:11px;">just now</td>
+                  <td><button class="btn btn-icon" style="color:var(--red);">🗑</button></td>
+                </tr>
+                <!-- Inline add row with validation error state -->
+                <tr class="add-row">
+                  <td style="color:var(--mid);font-size:11px;">4</td>
+                  <td>
+                    <input class="wf-input error" value="OPERATORY_1" placeholder="e.g. Storage">
+                    <div class="field-error">⚠ Name already in use for this location <span class="callout-num">3</span></div>
+                  </td>
+                  <td style="color:var(--mid);font-size:11px;">—</td>
+                  <td style="display:flex;gap:4px;">
+                    <button class="btn btn-sm btn-disabled">✓</button>
+                    <button class="btn btn-sm btn-secondary" style="font-size:10px;">✕</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <button class="btn btn-ghost btn-sm">+ Add Sub-Location</button>
+
+            <div style="display:flex;justify-content:space-between;margin-top:24px;">
+              <button class="btn btn-secondary">← Back</button>
+              <button class="btn btn-primary">Next: Import Data →</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-03: CSV IMPORT (Step 3) ══════════════════════════════ -->
+<div id="wf03">
+<div class="section-hdr">
+  <span class="screen-id">WF-03</span>
+  <h2>Setup Wizard — Step 3: CSV Import</h2>
+  <span class="badge badge-wizard">Wizard</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Two-phase import</div>
+      <div class="ann-desc">Items master imported first (creates catalogue). Balances imported second (seeds quantities). Balances upload only unlocks after Items import succeeds.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Template download</div>
+      <div class="ann-desc">"Download Template" generates a header-only CSV with one example row. Filename: <code>items_template.csv</code>. Helps users match column names exactly.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Preview table</div>
+      <div class="ann-desc">Shows first 5 rows after parse. Helps user confirm columns mapped correctly before full upload is committed.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> Error handling</div>
+      <div class="ann-desc">Row-level errors shown as: "X rows valid, Y rows errored." Error detail downloadable as <code>error_report.csv</code>. All errors must be resolved before Confirm is enabled (no partial import).</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">5</span> Idempotency</div>
+      <div class="ann-desc">Re-uploading same file is safe — upsert by SKU. No duplicate rows created. Useful when fixing a subset of errors.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Inventory Setup</h3>
+          <div class="user-chip"><div class="avatar">TY</div> Taylor Admin</div>
+        </div>
+        <div class="module-body">
+
+          <div class="wizard-progress" style="margin-bottom:48px;">
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div><span class="wiz-label">Locations</span></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div><span class="wiz-label">Sub-Locations</span></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot active">3</div><span class="wiz-label">Import Data</span></div><div class="wiz-line"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot future">4</div><span class="wiz-label">Done</span></div></div>
+          </div>
+
+          <div class="wizard-card">
+            <h4>Step 3a — Import Items Catalogue <span class="callout-num">1</span></h4>
+            <p>Upload your items list to create the inventory catalogue. <a href="#" style="color:var(--teal);">↓ Download items_template.csv</a> <span class="callout-num">2</span></p>
+
+            <!-- Upload zone — "file chosen, preview ready, 2 errors" state -->
+            <div class="upload-zone active">
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">items_master.csv selected</div>
+              <div class="upload-sub" style="color:var(--teal);">298 rows valid · 2 rows with errors <span class="callout-num">4</span></div>
+              <button class="btn btn-ghost btn-sm" style="margin-top:8px;">Replace file</button>
+            </div>
+
+            <!-- Preview table -->
+            <div class="preview-table">
+              <div style="font-size:11px;font-weight:700;color:var(--mid);margin-bottom:8px;">Preview (first 5 rows) <span class="callout-num">3</span></div>
+              <table class="wf-table">
+                <thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Unit</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>A-1001</td><td>Nitrile Gloves Small</td><td><span class="chip chip-ppe">PPE</span></td><td>box</td><td style="color:var(--green);">✓ Valid</td></tr>
+                  <tr><td>A-1002</td><td>Nitrile Gloves Medium</td><td><span class="chip chip-ppe">PPE</span></td><td>box</td><td style="color:var(--green);">✓ Valid</td></tr>
+                  <tr><td>B-2003</td><td>Composite A2 Syringe</td><td><span class="chip chip-rest">Restoratives</span></td><td>each</td><td style="color:var(--green);">✓ Valid</td></tr>
+                  <tr style="background:var(--red-lt)!important;"><td style="background:var(--red-lt)!important;">C-9999</td><td style="background:var(--red-lt)!important;">???</td><td style="background:var(--red-lt)!important;">—</td><td style="background:var(--red-lt)!important;">—</td><td style="color:var(--red);background:var(--red-lt)!important;">✕ Invalid category</td></tr>
+                </tbody>
+              </table>
+              <div class="error-summary">
+                ⚠️ <strong>2 rows have errors</strong> — <a href="#" style="color:var(--red);">Download error_report.csv</a> to review and fix, then re-upload. Import is blocked until all errors are resolved. <span class="callout-num">4</span>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:20px;align-items:center;">
+              <button class="btn btn-secondary">← Back</button>
+              <button class="btn btn-disabled">Confirm Items Import ✕ Errors present</button>
+            </div>
+          </div>
+
+          <!-- Balances import (locked until items done) -->
+          <div class="wizard-card" style="opacity:.45;pointer-events:none;">
+            <h4>Step 3b — Import Starting Balances <span class="callout-num">1</span></h4>
+            <p>Upload per-location, per-sub-location quantities. Unlocks after Items import is complete.</p>
+            <div class="upload-zone">
+              <div class="upload-icon">🔒</div>
+              <div class="upload-text">Locked</div>
+              <div class="upload-sub">Complete items import first</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-04: SUCCESS (Step 4) ════════════════════════════════ -->
+<div id="wf04">
+<div class="section-hdr">
+  <span class="screen-id">WF-04</span>
+  <h2>Setup Wizard — Step 4: Success</h2>
+  <span class="badge badge-wizard">Wizard</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Completion flag</div>
+      <div class="ann-desc">On render, server sets <code>setup_complete=true</code> on the practice record. Wizard will no longer auto-launch on next visit. Accessible via Settings > Inventory Setup.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Summary stats</div>
+      <div class="ann-desc">Shows: items imported, locations configured, sub-locations created, starting balances set. All from the import job result payload.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> CTA</div>
+      <div class="ann-desc">"Go to Inventory" navigates to WF-05 (Items List), pre-filtered to OFFICE_A, first sub-location tab. This is the primary user journey continuation point.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Inventory Setup</h3>
+        </div>
+        <div class="module-body">
+          <div class="wizard-progress" style="margin-bottom:48px;">
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div></div><div class="wiz-line done"></div></div>
+            <div class="wiz-step"><div class="wiz-step-wrap"><div class="wiz-dot done">✓</div></div></div>
+          </div>
+
+          <div class="success-state">
+            <div class="success-icon">✅</div>
+            <div class="success-title">Inventory is ready!</div>
+            <p style="font-size:13px;color:var(--mid);max-width:360px;">Your practice inventory has been configured. Staff can now start recording daily counts.</p>
+            <div class="success-stats">
+              <div class="success-stat"><div class="num">300</div><div class="lbl">Items imported</div></div>
+              <div class="success-stat"><div class="num">2</div><div class="lbl">Locations</div></div>
+              <div class="success-stat"><div class="num">8</div><div class="lbl">Sub-locations</div></div>
+              <div class="success-stat"><div class="num">2,400</div><div class="lbl">Balance rows set</div></div>
+            </div>
+            <button class="btn btn-primary" style="font-size:14px;padding:12px 28px;">Go to Inventory →</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-05: ITEMS LIST ═══════════════════════════════════════ -->
+<div id="wf05">
+<div class="section-hdr">
+  <span class="screen-id">WF-05</span>
+  <h2>Items List — Primary (Daily Count)</h2>
+  <span class="badge badge-primary">Primary Screen</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Location selector</div>
+      <div class="ann-desc">Pill buttons. Persisted in localStorage. Switching location resets sub-location to "All" and re-fetches. ARIA role="radio" group.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Sub-location tabs</div>
+      <div class="ann-desc">Cascades from Location. Tab key moves between tabs (not arrow — arrow is reserved for table row navigation). "All" tab shows aggregate, New Qty inputs disabled.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Search / filter</div>
+      <div class="ann-desc">Client-side filter on SKU + Name. Debounced 200ms. Active filter shown as dismissible chip. <kbd>Ctrl</kbd>+<kbd>F</kbd> focuses search field.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> New Qty keyboard flow</div>
+      <div class="ann-desc"><kbd>Tab</kbd> moves to next row's New Qty. <kbd>Enter</kbd> commits that row and moves down. <kbd>Shift</kbd>+<kbd>Tab</kbd> moves up. Empty = no change (skipped on Save All).</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">5</span> Save All</div>
+      <div class="ann-desc">Disabled when no rows are dirty or any row has a validation error. Optimistic update: Current Qty flips immediately on click; reverts on API error. Badge shows count of dirty rows.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">6</span> Row-level save</div>
+      <div class="ann-desc">Checkmark icon appears on hover of a dirty row. Commits only that row. For careful single-item corrections without affecting others.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+        <div class="pm-nav-item"><span class="icon">📜</span> Audit Log</div>
+        <div class="pm-nav-item"><span class="icon">⚙️</span> Settings</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Inventory</h3>
+          <button class="btn btn-secondary btn-sm">↓ Export CSV</button>
+          <button class="btn btn-secondary btn-sm">+ Add Item</button>
+          <div class="user-chip"><div class="avatar">JO</div> Jordan DA</div>
+        </div>
+        <div class="module-body">
+
+          <!-- Location selector -->
+          <div class="loc-selector-bar">
+            <label>Location <span class="callout-num">1</span></label>
+            <div class="loc-pills">
+              <span class="loc-pill active">🏥 OFFICE_A</span>
+              <span class="loc-pill">🏥 OFFICE_B</span>
+            </div>
+          </div>
+
+          <!-- Sub-location tabs -->
+          <div class="subloc-tabs">
+            <div class="subloc-tab all">All</div>
+            <div class="subloc-tab active">OPERATORY_1</div>
+            <div class="subloc-tab">OPERATORY_2</div>
+            <div class="subloc-tab">STERILIZATION</div>
+            <div class="subloc-tab">STORAGE</div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="toolbar">
+            <div class="search-field">
+              <span class="search-icon">🔍</span>
+              <input value="glove" placeholder="Search SKU or name…">
+              <span style="font-size:11px;color:var(--mid);">2 results</span>
+            </div>
+            <span class="filter-chip active">PPE ✕</span>
+            <span style="flex:1;"></span>
+            <button class="btn btn-primary" style="position:relative;">
+              Save All
+              <span style="position:absolute;top:-6px;right:-6px;background:var(--amber);color:white;border-radius:100px;width:18px;height:18px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;">3</span>
+            </button>
+          </div>
+
+          <!-- Items table -->
+          <table class="wf-table">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Unit</th>
+                <th style="text-align:right;">Current Qty</th>
+                <th>New Qty <span class="callout-num">4</span></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;">A-1001</td>
+                <td style="font-weight:600;">Nitrile Gloves Small</td>
+                <td><span class="chip chip-ppe">PPE</span></td>
+                <td style="color:var(--mid);">box</td>
+                <td style="text-align:right;font-weight:700;">24</td>
+                <td><div class="qty-cell"><input class="wf-input qty-input" value="20" style="border-color:var(--amber);background:#FFFBEB;"></div></td>
+                <td><button class="btn btn-icon" title="Save this row" style="color:var(--teal);">✓</button></td>
+              </tr>
+              <tr class="row-dirty">
+                <td style="font-family:monospace;font-size:11px;">A-1002</td>
+                <td style="font-weight:600;">Nitrile Gloves Medium</td>
+                <td><span class="chip chip-ppe">PPE</span></td>
+                <td style="color:var(--mid);">box</td>
+                <td style="text-align:right;font-weight:700;">18</td>
+                <td><div class="qty-cell"><input class="wf-input qty-input filled" value="16"></div></td>
+                <td><button class="btn btn-icon" title="Save this row" style="color:var(--teal);">✓</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;">B-2003</td>
+                <td style="font-weight:600;">Composite A2 Syringe</td>
+                <td><span class="chip chip-rest">Restoratives</span></td>
+                <td style="color:var(--mid);">each</td>
+                <td style="text-align:right;font-weight:700;">7</td>
+                <td><div class="qty-cell"><input class="wf-input qty-input" placeholder="—"></div></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="display:flex;align-items:center;gap:12px;margin-top:12px;">
+            <span style="font-size:12px;color:var(--mid);">Showing 2 of 30 items · filtered by "glove" + PPE</span>
+            <span class="toast toast-success">✓ Row A-1001 saved at 14:28</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-06: VALIDATION ERRORS ════════════════════════════════ -->
+<div id="wf06">
+<div class="section-hdr">
+  <span class="screen-id">WF-06</span>
+  <h2>Items List — Validation Error State</h2>
+  <span class="badge badge-edge">Edge State</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Inline error timing</div>
+      <div class="ann-desc">Error shown within 300ms of blur event. Field border turns red. Error icon + text below field. Never colour-only (accessibility).</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Save All disabled</div>
+      <div class="ann-desc">Save All button becomes disabled (greyed) when any field has an active error. Tooltip explains: "Fix validation errors before saving." Tab focus skips the disabled button.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Error types</div>
+      <div class="ann-desc">Non-numeric: "Enter a number." Negative: "Must be 0 or greater." Over limit: "Maximum is 9,999." All use same visual pattern.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar"><h3>Inventory</h3><button class="btn btn-disabled btn-sm">Save All ✕ Fix errors first</button></div>
+        <div class="module-body">
+          <div class="loc-selector-bar"><label>Location</label><div class="loc-pills"><span class="loc-pill active">🏥 OFFICE_A</span><span class="loc-pill">🏥 OFFICE_B</span></div></div>
+          <div class="subloc-tabs"><div class="subloc-tab active">OPERATORY_1</div><div class="subloc-tab">OPERATORY_2</div></div>
+          <div class="toolbar"><div class="search-field"><span class="search-icon">🔍</span><input placeholder="Search SKU or name…"></div></div>
+          <table class="wf-table">
+            <thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Unit</th><th style="text-align:right;">Current Qty</th><th>New Qty</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;">A-1001</td>
+                <td style="font-weight:600;">Nitrile Gloves Small</td>
+                <td><span class="chip chip-ppe">PPE</span></td>
+                <td style="color:var(--mid);">box</td>
+                <td style="text-align:right;font-weight:700;">24</td>
+                <td>
+                  <input class="wf-input qty-input-error" value="-5">
+                  <div class="field-error">⚠ Must be 0 or greater <span class="callout-num">1</span></div>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;">A-1002</td>
+                <td style="font-weight:600;">Nitrile Gloves Medium</td>
+                <td><span class="chip chip-ppe">PPE</span></td>
+                <td style="color:var(--mid);">box</td>
+                <td style="text-align:right;font-weight:700;">18</td>
+                <td>
+                  <input class="wf-input qty-input-error" value="abc">
+                  <div class="field-error">⚠ Enter a valid number</div>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="font-family:monospace;font-size:11px;">B-2003</td>
+                <td style="font-weight:600;">Composite A2 Syringe</td>
+                <td><span class="chip chip-rest">Restoratives</span></td>
+                <td style="color:var(--mid);">box</td>
+                <td style="text-align:right;font-weight:700;">7</td>
+                <td>
+                  <input class="wf-input qty-input filled" value="6">
+                </td>
+                <td><button class="btn btn-icon" style="color:var(--teal);">✓</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="toast toast-error" style="margin-top:12px;">⚠ 2 fields have errors — correct them to enable Save All <span class="callout-num">2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-07: CONCURRENCY CONFLICT ══════════════════════════════ -->
+<div id="wf07">
+<div class="section-hdr">
+  <span class="screen-id">WF-07</span>
+  <h2>Items List — Concurrency Conflict Modal</h2>
+  <span class="badge badge-edge">Edge State</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Trigger condition</div>
+      <div class="ann-desc">API returns HTTP 409 when server's <code>updated_at</code> for a Balance row differs from the ETag sent in the Save All request. Indicates another user saved between page-load and current save.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Diff display</div>
+      <div class="ann-desc">Shows three values: Original (page-load value), Theirs (what the other user saved), Mine (what I typed). User makes an informed decision.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Resolution actions</div>
+      <div class="ann-desc">"Keep mine" — sends a force-write with my value. "Accept theirs" — discards my input, updates UI to their value. Both dismiss the modal. If multiple rows conflict, modal shows them as a list.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> Non-conflicting rows</div>
+      <div class="ann-desc">Rows without conflicts are already committed by the time the 409 is returned. Only conflicting rows need resolution.</div>
+    </div>
+  </aside>
+
+  <div class="screen-canvas">
+    <div class="app-shell" style="position:relative;">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar"><h3>Inventory</h3></div>
+        <div class="module-body" style="filter:blur(1px);opacity:.4;">
+          <!-- blurred background -->
+          <table class="wf-table"><thead><tr><th>SKU</th><th>Name</th><th>Category</th><th>Unit</th><th>Current Qty</th><th>New Qty</th></tr></thead><tbody><tr><td>A-1001</td><td>Nitrile Gloves Small</td><td><span class="chip chip-ppe">PPE</span></td><td>box</td><td>24</td><td><input class="wf-input qty-input" value="20"></td></tr></tbody></table>
+        </div>
+        <!-- Conflict modal overlay -->
+        <div class="modal-overlay">
+          <div class="modal">
+            <div class="modal-title">⚠️ Save Conflict Detected <span class="callout-num">1</span></div>
+            <div class="modal-body">
+              Another user updated <strong>Nitrile Gloves Medium</strong> at OFFICE_A › OPERATORY_1 while you were counting. Choose which value to keep: <span class="callout-num">2</span>
+            </div>
+
+            <div class="conflict-row">
+              <div class="conflict-col conflict-old">
+                <div class="label">Original</div>
+                <div class="value" style="color:var(--mid);">18</div>
+              </div>
+              <div class="conflict-col conflict-theirs">
+                <div class="label">Jordan saved (14:32)</div>
+                <div class="value">5</div>
+              </div>
+              <div class="conflict-col conflict-mine">
+                <div class="label">You entered</div>
+                <div class="value">8</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px;justify-content:flex-end;">
+              <button class="btn btn-secondary">Accept theirs (5)</button>
+              <button class="btn btn-primary">Keep mine (8)</button>
+            </div>
+            <div style="font-size:10px;color:var(--mid);margin-top:10px;text-align:center;">
+              Non-conflicting rows were already saved successfully. <span class="callout-num">4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-08: EMPTY STATE ══════════════════════════════════════ -->
+<div id="wf08">
+<div class="section-hdr">
+  <span class="screen-id">WF-08</span>
+  <h2>Items List — Empty State</h2>
+  <span class="badge badge-edge">Edge State</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Two empty variants</div>
+      <div class="ann-desc">Variant A (shown): sub-location exists but no items assigned. CTA directs admin to add items. Variant B: search returns no results — show "Clear search" CTA instead.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Helpful copy</div>
+      <div class="ann-desc">Empty states never say "No data." They explain the situation and offer a clear path forward. Don Norman: affordances must always point to action.</div>
+    </div>
+  </aside>
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar"><h3>Inventory</h3><button class="btn btn-primary btn-sm">+ Add Item</button></div>
+        <div class="module-body">
+          <div class="loc-selector-bar"><label>Location</label><div class="loc-pills"><span class="loc-pill active">🏥 OFFICE_A</span><span class="loc-pill">🏥 OFFICE_B</span></div></div>
+          <div class="subloc-tabs"><div class="subloc-tab">OPERATORY_1</div><div class="subloc-tab active">STORAGE</div></div>
+          <div class="empty-state">
+            <div class="empty-icon">📦</div>
+            <div class="empty-title">No items in STORAGE yet</div>
+            <p class="empty-desc">Items in your catalogue don't have starting balances for this sub-location. Add an item or import a Balances CSV to get started. <span class="callout-num">2</span></p>
+            <div style="display:flex;gap:10px;">
+              <button class="btn btn-primary">+ Add Item</button>
+              <button class="btn btn-secondary">Import Balances CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-09: SUB-LOCATION MANAGEMENT ══════════════════════════ -->
+<div id="wf09">
+<div class="section-hdr">
+  <span class="screen-id">WF-09</span>
+  <h2>Sub-Location Management</h2>
+  <span class="badge badge-mgmt">Management</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Post-setup access</div>
+      <div class="ann-desc">Accessible via Settings › Sub-Locations. Admin role only. Same CRUD as wizard Step 2, but now balance-guard is active.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Balance guard on delete</div>
+      <div class="ann-desc">If any item has qty > 0 for this sub-location, Delete is replaced by Archive. Tooltip: "Cannot delete — items have recorded quantities. Archive instead?" Archive hides from count view but preserves data.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Inline rename</div>
+      <div class="ann-desc">Click the pencil icon to edit name inline. <kbd>Enter</kbd> saves. Name change propagates to Balance records immediately.</div>
+    </div>
+  </aside>
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+        <div class="pm-nav-item"><span class="icon">📜</span> Audit Log</div>
+        <div class="pm-nav-item"><span class="icon">⚙️</span> Settings</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar"><h3>Sub-Location Management <span class="callout-num">1</span></h3></div>
+        <div class="module-body">
+          <div class="subloc-tabs" style="margin-bottom:16px;"><div class="subloc-tab active">🏥 OFFICE_A</div><div class="subloc-tab">🏥 OFFICE_B</div></div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+            <button class="btn btn-primary btn-sm">+ Add Sub-Location</button>
+          </div>
+          <table class="wf-table">
+            <thead><tr><th>#</th><th>Name</th><th>Items with qty > 0</th><th>Status</th><th style="width:120px;">Actions</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="color:var(--mid);">1</td>
+                <td style="font-weight:600;">OPERATORY_1</td>
+                <td>12 items</td>
+                <td><span class="chip" style="background:#D1FAE5;color:#065F46;">Active</span></td>
+                <td style="display:flex;gap:6px;">
+                  <button class="btn btn-icon btn-secondary" title="Rename">✏️</button>
+                  <button class="btn btn-sm" style="background:#FEF3C7;color:#92400E;border:none;font-size:10px;" title="Cannot delete — items have qty. Archive instead?">Archive <span class="callout-num">2</span></button>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--mid);">2</td>
+                <td><input class="wf-input" value="OPERATORY_2" style="max-width:160px;"> <span class="callout-num">3</span></td>
+                <td>8 items</td>
+                <td><span class="chip" style="background:#D1FAE5;color:#065F46;">Active</span></td>
+                <td style="display:flex;gap:6px;">
+                  <button class="btn btn-sm btn-primary" style="font-size:10px;">Save ✓</button>
+                  <button class="btn btn-sm btn-secondary" style="font-size:10px;">✕</button>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--mid);">3</td>
+                <td style="font-weight:600;">STERILIZATION</td>
+                <td>5 items</td>
+                <td><span class="chip" style="background:#D1FAE5;color:#065F46;">Active</span></td>
+                <td style="display:flex;gap:6px;">
+                  <button class="btn btn-icon btn-secondary" title="Rename">✏️</button>
+                  <button class="btn btn-sm" style="background:#FEF3C7;color:#92400E;border:none;font-size:10px;">Archive</button>
+                </td>
+              </tr>
+              <tr>
+                <td style="color:var(--mid);">4</td>
+                <td style="font-weight:600;">STORAGE</td>
+                <td>0 items</td>
+                <td><span class="chip" style="background:#D1FAE5;color:#065F46;">Active</span></td>
+                <td style="display:flex;gap:6px;">
+                  <button class="btn btn-icon btn-secondary" title="Rename">✏️</button>
+                  <button class="btn btn-sm btn-danger" style="font-size:10px;">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="toast toast-warning" style="margin-top:12px;">⚠ OPERATORY_1 cannot be deleted — it has items with recorded quantities. Use Archive to hide it from count views.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-10: AUDIT LOG ════════════════════════════════════════ -->
+<div id="wf10">
+<div class="section-hdr">
+  <span class="screen-id">WF-10</span>
+  <h2>Audit Log</h2>
+  <span class="badge badge-audit">Audit</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Default state</div>
+      <div class="ann-desc">Loads last 30 days, all locations, newest first. Pagination: 50 rows per page with virtual scroll on large sets.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> Filter cascade</div>
+      <div class="ann-desc">Location filter populates Sub-Location dropdown. Date range: calendar picker or type YYYY-MM-DD. All filters are additive (AND logic).</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Delta column</div>
+      <div class="ann-desc">Shows +N or −N. Red for negative delta, green for positive. Helps managers spot anomalies at a glance without computing diffs manually.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> CSV export</div>
+      <div class="ann-desc">Exports current filter view. Columns: timestamp, actor, location, sublocation, sku, item_name, old_qty, new_qty, delta, source. Max 10,000 rows per export.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">5</span> Source badge</div>
+      <div class="ann-desc">"Manual" = daily count entry. "CSV Import" = wizard or re-import. Helps distinguish data entry from bulk uploads in audit reviews.</div>
+    </div>
+  </aside>
+  <div class="screen-canvas">
+    <div class="app-shell">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item"><span class="icon">📦</span> Inventory</div>
+        <div class="pm-nav-item active"><span class="icon">📜</span> Audit Log</div>
+        <div class="pm-nav-item"><span class="icon">⚙️</span> Settings</div>
+      </nav>
+      <div class="module-area">
+        <div class="module-topbar">
+          <h3>Audit Log <span class="callout-num">1</span></h3>
+          <button class="btn btn-secondary btn-sm">↓ Export CSV <span class="callout-num">4</span></button>
+        </div>
+        <div class="module-body">
+          <!-- Filters -->
+          <div class="filter-bar">
+            <select class="filter-select"><option>📍 OFFICE_A</option><option>All Locations</option></select>
+            <select class="filter-select"><option>All Sub-Locations</option><option>OPERATORY_1</option></select>
+            <div class="date-range">
+              <input type="text" class="filter-select" value="2026-04-11" style="width:110px;">
+              <span style="font-size:12px;color:var(--mid);">to</span>
+              <input type="text" class="filter-select" value="2026-04-17" style="width:110px;">
+            </div>
+            <div class="search-field" style="flex:1;max-width:200px;"><span class="search-icon">🔍</span><input placeholder="Search actor, SKU…"></div>
+            <button class="btn btn-ghost btn-sm">Clear filters</button>
+          </div>
+
+          <!-- Log table -->
+          <table class="wf-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Actor</th>
+                <th>Location › Sub-Loc</th>
+                <th>SKU</th>
+                <th>Item</th>
+                <th style="text-align:right;">Old</th>
+                <th style="text-align:right;">New</th>
+                <th style="text-align:right;">Delta <span class="callout-num">3</span></th>
+                <th>Source <span class="callout-num">5</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size:11px;white-space:nowrap;">2026-04-17 14:32</td>
+                <td style="font-size:11px;">Jordan M.</td>
+                <td style="font-size:11px;">OFFICE_A › OPER_1</td>
+                <td style="font-family:monospace;font-size:10px;">A-1002</td>
+                <td style="font-size:11px;">Nitrile Gloves M</td>
+                <td style="text-align:right;font-weight:700;">12</td>
+                <td style="text-align:right;font-weight:700;">8</td>
+                <td style="text-align:right;font-weight:700;color:var(--red);">−4</td>
+                <td><span class="chip" style="background:#DBEAFE;color:#1D4ED8;">Manual</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:11px;white-space:nowrap;">2026-04-17 09:15</td>
+                <td style="font-size:11px;">Riley S.</td>
+                <td style="font-size:11px;">OFFICE_A › STERIL</td>
+                <td style="font-family:monospace;font-size:10px;">A-1001</td>
+                <td style="font-size:11px;">Nitrile Gloves S</td>
+                <td style="text-align:right;font-weight:700;">30</td>
+                <td style="text-align:right;font-weight:700;">24</td>
+                <td style="text-align:right;font-weight:700;color:var(--red);">−6</td>
+                <td><span class="chip" style="background:#DBEAFE;color:#1D4ED8;">Manual</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:11px;white-space:nowrap;">2026-04-11 08:00</td>
+                <td style="font-size:11px;">Taylor A.</td>
+                <td style="font-size:11px;">OFFICE_A › OPER_1</td>
+                <td style="font-family:monospace;font-size:10px;">B-2003</td>
+                <td style="font-size:11px;">Composite A2 Syr.</td>
+                <td style="text-align:right;font-weight:700;">0</td>
+                <td style="text-align:right;font-weight:700;">10</td>
+                <td style="text-align:right;font-weight:700;color:var(--green);">+10</td>
+                <td><span class="chip" style="background:#FEF3C7;color:#92400E;">CSV Import</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="font-size:11px;color:var(--mid);margin-top:10px;">Showing 3 of 47 transactions · Filtered: OFFICE_A, Apr 11–17</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ WF-11: ADD / EDIT ITEM MODAL ════════════════════════════ -->
+<div id="wf11">
+<div class="section-hdr">
+  <span class="screen-id">WF-11</span>
+  <h2>Add / Edit Item Modal</h2>
+  <span class="badge badge-mgmt">Management</span>
+</div>
+<div class="screen-wrap">
+  <aside class="annotations">
+    <div class="ann-title">Annotations</div>
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">1</span> Modal vs page</div>
+      <div class="ann-desc">Add/Edit is a modal overlay (not a new page) to preserve the user's place in the filtered list. Focus is trapped within modal. <kbd>Esc</kbd> dismisses with a discard-changes confirm if the form is dirty.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">2</span> SKU immutability</div>
+      <div class="ann-desc">In Edit mode, SKU field is read-only (grayed, no focus). Tooltip: "SKU cannot be changed after creation." This protects audit trail integrity.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">3</span> Live SKU check</div>
+      <div class="ann-desc">In Add mode, SKU field triggers a debounced (500ms) uniqueness check on blur. Green check = available. Red = taken.</div>
+    </div>
+    <hr class="ann-sep">
+    <div class="ann-item">
+      <div class="ann-label"><span class="ann-num">4</span> Archive vs Delete</div>
+      <div class="ann-desc">Archive button always shown on Edit modal. Delete only shown if balance = 0 AND no transactions. Delete requires a confirmation dialog with item name typed to confirm.</div>
+    </div>
+  </aside>
+  <div class="screen-canvas">
+    <div class="app-shell" style="position:relative;">
+      <nav class="pm-sidebar">
+        <div class="logo">🦷 PracticePro<span>Practice Management</span></div>
+        <div class="pm-nav-item active"><span class="icon">📦</span> Inventory</div>
+      </nav>
+      <div class="module-area" style="position:relative;">
+        <div style="filter:blur(2px);opacity:.35;padding:20px;">
+          <table class="wf-table"><thead><tr><th>SKU</th><th>Name</th><th>Category</th></tr></thead><tbody><tr><td>A-1001</td><td>Nitrile Gloves Small</td><td>PPE</td></tr></tbody></table>
+        </div>
+        <!-- Modal -->
+        <div class="modal-overlay">
+          <div class="modal" style="max-width:480px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div class="modal-title">Add New Item <span class="callout-num">1</span></div>
+              <button class="btn btn-icon btn-secondary">✕</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <div>
+                <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">SKU <span style="color:var(--red);">*</span></label>
+                <input class="wf-input filled" value="C-3005" placeholder="e.g. A-1001">
+                <div style="font-size:10px;color:var(--green);margin-top:2px;">✓ SKU available <span class="callout-num">3</span></div>
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Name <span style="color:var(--red);">*</span></label>
+                <input class="wf-input" value="Prophy Paste Mint" placeholder="Item name">
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Category <span style="color:var(--red);">*</span></label>
+                <select class="wf-input">
+                  <option>Select…</option>
+                  <option>PPE</option>
+                  <option selected>Disposables</option>
+                  <option>Restoratives</option>
+                  <option>Instruments</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:11px;font-weight:700;color:var(--dark);display:block;margin-bottom:4px;">Unit <span style="color:var(--red);">*</span></label>
+                <select class="wf-input">
+                  <option selected>box</option>
+                  <option>each</option>
+                  <option>pack</option>
+                  <option>roll</option>
+                  <option>bottle</option>
+                  <option>bag</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="background:var(--warm);border-radius:4px;padding:10px;margin-top:12px;font-size:11px;color:var(--mid);">
+              💡 Starting quantities for each sub-location can be set via the Balances CSV import or by doing a count on the Items List after saving.
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px;">
+              <button class="btn btn-ghost btn-sm" style="color:var(--red);">Archive <span class="callout-num">4</span></button>
+              <div style="display:flex;gap:10px;">
+                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary">Save Item</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr class="page-break">
+
+<!-- ═══════════════ FOOTER ══════════════════════════════════════════════════ -->
+<div style="background:var(--navy);color:white;padding:48px 80px;margin-top:0;">
+  <div style="font-size:18px;font-weight:800;margin-bottom:8px;color:var(--teal);">Dental Inventory Management — Wireframe Set</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px;">DentalInventory_SribalajSuresh_20260418 · Submitted to interview@hirereactor.com</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;font-size:12px;color:rgba(255,255,255,.6);">
+    <div>
+      <div style="font-weight:700;color:white;margin-bottom:8px;">Deliverables</div>
+      <div>✅ Research Snapshot (PDF)</div>
+      <div>✅ Product Spec (PDF)</div>
+      <div>✅ Wireframes — 11 screens (HTML)</div>
+      <div>✅ Interaction annotations</div>
+      <div>✅ Acceptance criteria</div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:white;margin-bottom:8px;">Screens Covered</div>
+      <div>WF-01 — PM Locations (read-only)</div>
+      <div>WF-02 — Sub-Locations CRUD</div>
+      <div>WF-03 — CSV Import (with errors)</div>
+      <div>WF-04 — Setup Success</div>
+      <div>WF-05 — Items List (daily count)</div>
+      <div>WF-06 — Validation Errors</div>
+      <div>WF-07 — Concurrency Conflict</div>
+      <div>WF-08 — Empty State</div>
+      <div>WF-09 — Sub-Loc Management</div>
+      <div>WF-10 — Audit Log</div>
+      <div>WF-11 — Add/Edit Item</div>
+    </div>
+    <div>
+      <div style="font-weight:700;color:white;margin-bottom:8px;">Design Principles Applied</div>
+      <div>Norman — Affordances & feedback</div>
+      <div>Accessibility — WCAG 2.1 AA notes</div>
+      <div>Keyboard-first navigation documented</div>
+      <div>Error recovery at every interaction</div>
+      <div>Empty states with clear CTAs</div>
+      <div>Concurrency handled gracefully</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
